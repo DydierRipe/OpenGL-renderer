@@ -1,0 +1,29 @@
+{
+  "mainCam": {
+    "type": "Camera",
+    "static": false,
+
+    "config": {
+      "resW": 700,
+      "resH": 700,
+      "position": [ 0.0, 0.0, 30.0 ],
+      "rotation": [ 0.0, -90.0, 0.0 ],
+      "ortho": false,
+      "FOV": 60.0,
+      "maxRender": 1000.0
+    }
+  },
+  "vis1": {
+    "type": "Visible",
+    "static": false,
+
+    "config": {
+      "model": "res/3D models/penguin.legobj",
+      "position": [ 10.0, 0.0, -30.0 ],
+      "rotation": [ 0.0 ],
+      "size": [ 10.0 ]
+    }
+  }
+}
+
+//Camera cam1(700.0f, 700.0f, camCount, Position(0.0f, 0.0f, 30.0f), Rotation(0.0f, -90.0f, 0.0f), false, 60.0f, 1000.0f);
