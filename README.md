@@ -1,13 +1,13 @@
-<h1>Hi This is for you to see before u critiquize </h1>
+<h1>Hi This is for you to see before u say something 🕳🕳🕳</h1>
 
-A lot of code is super inefficient and provisional, most part of that code is marked as <b>"LEGACY"</b> or is on onUpdate. 
-Renderer class and file is super disordered and a lot of the code is just legacy made.
-Code will improve a lot when Map class is minimally finished <b>(the same will happen with GLSL code)</b> but for now, this is what I've got :)
+A lot of code is super inefficient and provisional, most part of that code is marked as <b>🤢"LEGACY"🤢</b> or is on onUpdate function. <br>
+Renderer class and index file is super disordered and a lot of the code is just legacy made (puagh). It contains what is supposed to be the scene managing system tho 🔥🔥🔥🔥🔥🔥<br>
+Code will be improved 💅a lot💅 when Map class is <s>minimally</s> finished <b>(the same will happen with GLSL code 🤖)</b> but for now, this is what we've got :) 🥺🥺
 
-<s>This is also lacking of comments, but that'll be fixed soon</s>
+<b>The code is also ✨lacking✨ <s>(like me all the time omg)</s> of comments, but that'll be fixed soon.</b>
 
-You can suggest whatever on my media (reach me just as dydierripe on any social media or via whatsapp if u somehow got my number)
+You can suggest whatever on my media (just reach me as dydierripe on any social media or via whatsapp if u somehow got my number (weirdo))
 
 <h2>Specs (yeah this somehow exists)</h2>
 
-here will be something written
+Here will something be written 🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯🤯
