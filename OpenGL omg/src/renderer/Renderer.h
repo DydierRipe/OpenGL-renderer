@@ -30,7 +30,7 @@ class Renderer : public Observer, public std::enable_shared_from_this<Renderer>
 {
 public:
 	// Renderer(GLFWwindow* window, const std::string &mapDir); NEW
-	Renderer(GLFWwindow* vWindow, std::vector<string> texs, 
+	Renderer(GLFWwindow* vWindow, //std::vector<string> texs, 
 		std::vector<std::shared_ptr<Visible>> act, 
 		std::vector<std::shared_ptr<Camera>> cams, 
 		std::shared_ptr<DirectionalLight> dirLight,
@@ -60,15 +60,7 @@ private:
 
 	bool bIsReseting = true;
 
-	VertexArray va;
-	VertexArray lva;
-	std::unique_ptr<VertexBuffer> vb;
-	std::unique_ptr<VertexBuffer> lvb;
-	VertexBufferLayout layout;
-	std::unique_ptr <IndexBuffer> ib;
-	std::unique_ptr <IndexBuffer> lib;
 	std::unique_ptr <Shader> shader;
-	std::unique_ptr <Shader> lightShader;
 
 	unsigned int currentCam = 0;
 	std::vector<std::shared_ptr<Visible>> actors; // LEGACY
@@ -78,14 +70,9 @@ private:
 	std::vector<std::shared_ptr<PointLight>> poi; // LEGACY
 	std::vector<std::shared_ptr<SpotLight>> sp; // LEGACY
 	
-	std::vector<TextureID> textures;
+	//std::vector<TextureID> textures;
 	//std::shared_ptr<Map> map = nullptr;
-	std::vector<float> positions;
-	std::vector<float> lPositions;
 
 	std::vector<glm::mat4> model;
 	std::vector<glm::mat4> lightModel;
-
-	unsigned int diff = 0;
-	unsigned int spec = 0;
 };

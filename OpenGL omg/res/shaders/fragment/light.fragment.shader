@@ -2,9 +2,14 @@
 
 layout(location = 0) out vec4 color;
 
+uniform unsigned int diffNum;
+uniform unsigned int specNum;
+uniform unsigned int emisNum;
+
 struct Material {
-    sampler2D diffuse;
-    sampler2D specular;
+    sampler2D texture_diffuse[diffNum];
+    sampler2D texture_specular[specNum];
+    sampler2D texture_emission[emisNum];
     float shininess;
 };
 
@@ -87,6 +92,9 @@ void main() {
     for(int i = 0; i < NR_SPOT_LIGHTS; i++) {
         result += calcSpotLight(u_spotLights[i], norm, viewDir);
     }
+
+    result += texture(u_material.emission, v_tex_coord).rgb;
+
     color = vec4(result, 1.0);
 }
 

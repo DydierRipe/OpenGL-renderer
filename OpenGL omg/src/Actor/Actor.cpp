@@ -1,12 +1,14 @@
 #include "Actor.h"
 #include <memory>
+#include "Scene.h"
 
 
-Actor::Actor() : transform(Position(0), Rotation(0)), currentMap(nullptr), name(""), actorIndex(-1) {}
+Actor::Actor() : transform(Position(0), Rotation(0)), scene(nullptr) {}
 
 
-void Actor::configure(const json& data, const std::string& vname, std::shared_ptr<Map> map, unsigned int &index)
+void Actor::configure(const json& data, const string& vmapName, const std::string& vname, std::shared_ptr<Scene> vscene)
 {
+	mapName = vmapName;
 	name = vname;
 	bool bNeedsSize = false;
 	Position pos(0);
@@ -57,17 +59,31 @@ void Actor::configure(const json& data, const std::string& vname, std::shared_pt
 		}
 	}
 
-	if (map == nullptr) std::cout << "WARNING: this actor does not have a pointer to its map, this may cause some issues accesing to other objects/actors" << std::endl;
-	else currentMap = map;
-	actorIndex = index;
-
-	index++; //NEW
+	if (vscene == nullptr) std::cout << "WARNING: this actor does not have a pointer to its scene, this may cause some issues accesing to other objects/actors" << std::endl;
+	else scene = vscene;
 
 	if (bNeedsSize) transform = Transform(pos, rot, siz);
 	else transform = Transform(pos, rot);
 }
 
-inline Position Actor::proccessPosition(const json& data, const std::string vname, const std::string name)
+void Actor::setType(string vtype)
+{
+	if (!bIsTypeSet)
+	{
+		type = vtype;
+		bIsTypeSet = true;
+	}
+}
+
+void Actor::setName(string newName)
+{
+	string nn = scene->legalizeNameChange(name, newName, type, mapName);
+	if (nn != "-1")
+		name = nn;
+	else std::cout << "Name of " << name << " could not be changed." << std::endl;
+}
+
+Position Actor::proccessPosition(const json& data, const std::string vname, const std::string name)
 {
 	Position pos(0);
 	switch (data[name].size())

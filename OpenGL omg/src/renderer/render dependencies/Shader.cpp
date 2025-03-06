@@ -9,11 +9,21 @@
 #include "../Actor/lighting/PointLight.h"
 #include "../Actor/lighting/SpotLight.h"
 
+string Shader::extractName(const string& path) {
+    size_t lastSlash = path.find_last_of("/\\");
+    size_t lastDot = path.find_last_of('.');
+    size_t secondLastDot = path.find_last_of('.', lastDot - 1);
+
+    if (lastDot == std::string::npos || secondLastDot == std::string::npos)
+        return ""; // No hay suficientes puntos
+
+    return path.substr(secondLastDot + 1, lastDot - secondLastDot - 1);
+}
+
 Shader::Shader(const string& vertex, const string& fragment) : pathV(vertex), pathF(fragment), rendererID(0)
 {
     shaderSource src = parseShader(pathV, pathF);
     rendererID = createShader(src.vertexSrc, src.fragmentSrc);
-
 }
 
 Shader::~Shader() { glDeleteProgram(rendererID); }
@@ -21,6 +31,9 @@ Shader::~Shader() { glDeleteProgram(rendererID); }
 shaderSource Shader::parseShader(const string& vertex, const string& fragment) {
     std::ifstream streamV(vertex);
     std::ifstream streamF(fragment);
+
+    vertexName = extractName(vertex);
+    fragmentName = extractName(fragment);
 
     string line;
     std::stringstream ss[2];

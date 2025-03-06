@@ -43,6 +43,13 @@ public:
 	int a;
 };
 
+/*
+GLenum error = glGetError();
+	if (error != GL_NO_ERROR) {
+		std::cerr << "OpenGL Error: " << error << std::endl;
+	}
+*/
+
 using std::string;
 
 static void GLAPIENTRY MessageCallback(GLenum source,
@@ -85,9 +92,11 @@ int main(void)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_STENCIL_TEST);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glClearColor(0, 0.7, 1, 1);
 
-	std::vector<string> textures = {"res/images/default.png"};
+	//std::vector<string> textures = { "res/images/default.png", "res/images/container2.png", "res/images/container2_specular.png"};
 	std::vector<std::shared_ptr<Visible>> actors;
 	std::vector<std::shared_ptr<Camera>> cameras;
 	std::vector<std::shared_ptr<SpotLight>> slighting;
@@ -132,27 +141,49 @@ int main(void)
 
 	auto actor1 = std::make_shared<Visible>();
 	auto actor2 = std::make_shared<Visible>();
-
+	auto actor3 = std::make_shared<Visible>();
+	auto actor4 = std::make_shared<Visible>();
 
 	actor1->configure(json::parse(R"({
-	  "model": "res/3D models/cube.legobj",
-	  "position": [ 0.0, -10.0, 0.0 ],
+	  "model": "res/3D models/human/FinalBaseMesh.obj",
+	  "position": [ 0.0, 55.0, 40.0 ],
 	  "rotation": [ 0.0 ],
-	  "size": [ 100, 5, 100 ],
+	  "size": [ 0.5 ],
 	  "material": {
-			"shininess": 72
+			"shininess": 5
 	  }
 	})"), "actor1", std::make_shared<Map>(), actorCount);
 
 	actor2->configure(json::parse(R"({
-	  "model": "res/3D models/cube.legobj",
-	  "position": [ 10.0, -10.0, 0.0 ],
-	  "rotation": [ 0.0 ],
-	  "size": [ 100, 100, 5 ],
+	  "model": "res/3D models/basic_shapes/cube/cube.obj",
+	  "position": [ 0.0, -4, 0.0 ],
+	  "rotation": [ 0.0],
+	  "size": [ 2000, 1, 2000 ],
 	  "material": {
-			"shininess": 72
+			"shininess": 5
 	  }
 	})"), "actor2", std::make_shared<Map>(), actorCount);
+
+	actor3->configure(json::parse(R"({
+	  "model": "res/3D models/woodTower/wooden watch tower2.obj",
+	  "position": [ -1.0, -10, 40.0 ],
+	  "rotation": [ 0.0, 0.0, 0.0 ],
+	  "size": [ 10, 10, 10 ],
+	  "material": {
+			"shininess": 5
+	  }
+	})"), "actor3", std::make_shared<Map>(), actorCount);
+
+	actor4->configure(json::parse(R"({
+	  "model": "res/3D models/floppa/flopp.obj",
+	  "shader": "default",
+	  "position": [ 0.0 ],
+	  "rotation": [ 0.0, 0.0, 0.0 ],
+	  "size": [ 1 ],
+	  "material": {
+			"shininess": 5
+	  }
+	})"), "actor3", std::make_shared<Map>(), actorCount);
 
 	auto l1 = std::make_shared<DirectionalLight>();
 	auto l2 = std::make_shared<PointLight>();
@@ -160,36 +191,33 @@ int main(void)
 	auto l4 = std::make_shared<SpotLight>();
 
 	l1->configure(json::parse(R"({
-	  "model": "res/3D models/cube.legobj",
 	  "position": [ 10.0, 0.0, 0.0 ],
 	  "rotation": [ 0.0],
 	  "size": [ 1.0 ],
 	  "illumination": {
-			"ambient": [0.1],
-			"diffuse": [0.1],
+			"ambient": [0.3],
+			"diffuse": [0.7],
 			"specular": [0.1],
-			"direction": [0, 0.3, -1]
+			"direction": [0.3, -1, 0.4]
 	  }
 
 	})"), "ambient", std::make_shared<Map>(), litCount);
 
 	l2->configure(json::parse(R"({
-	  "model": "res/3D models/cube.legobj",
-	  "position": [ 10.0, 0.0, 0.0 ],
+	  "position": [ 10.0, 5.0, 10.0 ],
 	  "rotation": [ 0.0],
 	  "size": [ 1.0 ],
 	  "illumination": {
-			"ambient": [0],
-			"diffuse": [0],
-			"specular": [0],
+			"ambient": [0.3],
+			"diffuse": [1],
+			"specular": [1],
 			"constant": 1.0,
-			"linear": 0.14,
-			"quadratic": 0.07
+			"linear": 0.045,
+			"quadratic": 0.0075
 	  }
 	})"), "point", std::make_shared<Map>(), litCount);
 
 	l3->configure(json::parse(R"({
-	  "model": "res/3D models/arrow.legobj",
 	  "position": [ 0.0, 10.0, -5.0 ],
 	  "rotation": [ 0.0],
 	  "size": [ 1.0 ],
@@ -207,7 +235,6 @@ int main(void)
 	})"), "spot", std::make_shared<Map>(), litCount);
 
 	l4->configure(json::parse(R"({
-	  "model": "res/3D models/arrow.legobj",
 	  "position": [ 10.0, 5.0, 10.0 ],
 	  "rotation": [ 0.0],
 	  "size": [ 1.0 ],
@@ -226,15 +253,17 @@ int main(void)
 
 	plighting.push_back(l2);
 	slighting.push_back(l3);
-	slighting.push_back(l4);
+	//slighting.push_back(l4);
 
 	cam2->lockViewToObject(actor1);
 	l3->setAttachment(cam1);
 
 	actors.push_back(actor1);
 	actors.push_back(actor2);
+	actors.push_back(actor3);
+	//actors.push_back(actor4);
 
-	std::shared_ptr<Renderer> renderer = std::make_shared<Renderer>(window, textures, actors, cameras, l1, plighting, slighting);
+	std::shared_ptr<Renderer> renderer = std::make_shared<Renderer>(window,/* textures,*/ actors, cameras, l1, plighting, slighting);
 
 	std::vector<std::shared_ptr<Observable>> observableActors;
 	for (auto& actor : actors) {
@@ -279,8 +308,7 @@ int main(void)
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClear(GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		float currentFrame = glfwGetTime();
 

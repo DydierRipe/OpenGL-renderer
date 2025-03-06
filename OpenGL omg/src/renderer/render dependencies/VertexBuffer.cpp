@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include "VertexBuffer.h"
 #include <iostream>
 
@@ -6,7 +5,8 @@ VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
     glGenBuffers(1, &rendererID);
     glBindBuffer(GL_ARRAY_BUFFER, rendererID);
-    glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+    std::cout << "VBO: " << rendererID << std::endl;
 }
 
 VertexBuffer::~VertexBuffer()

@@ -1,5 +1,7 @@
 #include "Visible.h"
+#include "Scene.h"
 #include <Windows.h>
+#include "../renderer/render dependencies/Shader.h"
 
 /*
 	POR IMPLEMENTAR: 
@@ -11,7 +13,7 @@
 */
 
 Visible::Visible()
-	: Actor(), model({}), material({ 1, 1, 1 }), texture("-1", 0)
+	: Actor()
 {
 }
 
@@ -19,40 +21,47 @@ Visible::~Visible()
 {
 }
 
+void Visible::draw(Shader& shader)
+{
+	shader.setUniformMat4f("u_model", getTransform().getTransformMatrix());
+	shader.setUniform1f("u_material.shininess", 32.0f);
+	if (auto mod = model.lock()) mod->draw(shader);
+}
+
+void Visible::changeModel(const string& path)
+{
+	model = scene->getModelManager().getModel(path);
+}
+
+//LEGACY
 void Visible::getModel(std::vector<float>& bufferArray)
 {
-	for (int i = 0; i < model.coords.size(); i++) {
-		bufferArray.push_back(model.coords[i]);
-	}
+	//for (int i = 0; i < model.coords.size(); i++) {
+		//bufferArray.push_back(model.coords[i]);
+	//}
 }
-
+//LEGACY
 void Visible::getModelIArray(std::vector<unsigned int>& indexArray, size_t &prevArrNum)
 {
-	for (int i = 0; i < model.index.size(); i++) indexArray.push_back(model.index[i] + prevArrNum * getActorIndex());
-	prevArrNum = model.coords.size() / 10;
+	//for (int i = 0; i < model.index.size(); i++) indexArray.push_back(model.index[i] + prevArrNum * getActorIndex());
+	//prevArrNum = model.coords.size() / 10;
 }
 
-void Visible::configure(const json& data, const std::string& vname, std::shared_ptr<Map> map, unsigned int& index)
+void Visible::configure(const json& data, const string& vmapName, const string& vname, std::shared_ptr<Scene> vscene)
 {
-	Actor::configure(data, vname, map, index);
+	Actor::configure(data, vmapName, vname, vscene);
 
 	if (data.contains("model")) {
-		unsigned int texID = DEFAULT_TEXTURE;
 		Color col = DEFAULT_COLOR;
+		
+		model = scene->getModelManager().addModel(data["model"]);
+	}
 
-		bool softenNormal = false;
-		if (data.contains("softenNormal")) softenNormal = data["softenNormal"];
+	if (data.contains("vertex_shader") && data.contains("fragment_shader")) {
 
-		if (data.contains("texID")) texID = data["texID"];
-		if (data.contains("material")) {
-			material.diffuse = 1;
-			material.specular = 1;
-
-			if (data["material"].contains("shininess")) material.shininess = data["material"]["shininess"];
-		}
-
-		texture = { "-1", texID };
-		model = ModelProcessor::arrayData(data["model"], texID, getActorIndex(), softenNormal);
+		std::weak_ptr<Shader> shad = scene->getShaderManager().addShader(data["vertex_shader"], data["fragment_shader"]);
+		if (auto shader = shad.lock())
+			shaderName = shader->getName();
 	}
 }
 

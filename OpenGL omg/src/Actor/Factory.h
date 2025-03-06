@@ -7,9 +7,7 @@
 using json = nlohmann::json;
 
 class Actor;
-class Camera;
-class Visible;
-class Map;
+class Scene;
 
 /*
 	A este punto es mejor especificar el tipo con un string y no joder tanto, la otra es que en el mismo .h se implementen las funciones, 
@@ -25,7 +23,7 @@ public:
 
 	Factory();
 
-	std::shared_ptr<Actor> create(const std::string &type, const std::string &name, const json data, std::shared_ptr<Map> map, unsigned int &index);
+	std::shared_ptr<Actor> create(const std::string &type, const string& mapName, const std::string &name, const json data, std::shared_ptr<Scene> scene);
 
 private:
 	std::unordered_map<std::string, createFunction> funcMap;

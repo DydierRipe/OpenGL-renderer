@@ -35,7 +35,10 @@ void Light::onUpdate(float deltaTime)
 
 void Light::configure(const json& data, const std::string& vname, std::shared_ptr<Map> map, unsigned int& index)
 {
-	Visible::configure(data, vname, map, index);
+	json modelData = data;
+	//modelData.push_back(json::object_t::value_type("model","res/3D models/Rubics_cube/cube.obj"));
+
+	Visible::configure(modelData, vname, map, index);
 
 	if (data.contains("illumination")) {
 		ambient = proccessColor(data["illumination"], "ambient", vname);

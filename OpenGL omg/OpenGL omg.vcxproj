@@ -88,14 +88,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ASSIMP\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2019;$(SolutionDir)Dependencies\GLEW\lib\Release\Win32</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2019;$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;$(SolutionDir)Dependencies\ASSIMP</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;assimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -148,11 +148,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Actor\Actor.cpp" />
-    <ClCompile Include="src\Actor\Camera.cpp" />
+    <ClCompile Include="src\Actor\camera\Camera.cpp" />
+    <ClCompile Include="src\Actor\Factory.cpp" />
     <ClCompile Include="src\Actor\lighting\DirectionalLight.cpp" />
     <ClCompile Include="src\Actor\lighting\Light.cpp" />
     <ClCompile Include="src\Actor\lighting\PointLight.cpp" />
     <ClCompile Include="src\Actor\lighting\SpotLight.cpp" />
+    <ClCompile Include="src\Actor\Scene.cpp" />
+    <ClCompile Include="src\Actor\model\Mesh.cpp" />
+    <ClCompile Include="src\Actor\model\Model.cpp" />
+    <ClCompile Include="src\Actor\model\ModelManager.cpp" />
+    <ClCompile Include="src\Actor\model\ShaderManager.cpp" />
     <ClCompile Include="src\Actor\Visible.cpp" />
     <ClCompile Include="src\Observer\Observable.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
@@ -175,12 +181,17 @@
     <ClCompile Include="src\renderer\render dependencies\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assimp-vc143-mtd.dll" />
+    <None Include="res\3D models\basic_shapes\cylinder\cylinder.mtl" />
+    <None Include="res\3D models\basic_shapes\cube\cube.mtl" />
+    <None Include="res\3D models\basic_shapes\sphere\sphere.mtl" />
     <None Include="res\3D models\cube.legobj" />
     <None Include="res\3D models\arrow.legobj" />
     <None Include="res\3D models\penguin.legobj" />
     <None Include="res\maps\firstMap.json" />
     <None Include="res\shaders\fragment\lightSource.fragment.shader" />
     <None Include="res\shaders\fragment\light.fragment.shader" />
+    <None Include="res\shaders\fragment\texture.fragment.shader" />
     <None Include="res\shaders\vertex\basic.vertex.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
@@ -323,14 +334,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
-    <ClInclude Include="src\Actor\Camera.h" />
+    <ClInclude Include="src\Actor\camera\Camera.h" />
+    <ClInclude Include="src\Actor\Factory.h" />
+    <ClInclude Include="src\Actor\FactoryIncludes.h" />
     <ClInclude Include="src\Actor\lighting\DirectionalLight.h" />
     <ClInclude Include="src\Actor\lighting\Light.h" />
     <ClInclude Include="src\Actor\lighting\PointLight.h" />
     <ClInclude Include="src\Actor\lighting\SpotLight.h" />
+    <ClInclude Include="src\Actor\Scene.h" />
+    <ClInclude Include="src\Actor\model\Mesh.h" />
+    <ClInclude Include="src\Actor\model\Model.h" />
+    <ClInclude Include="src\Actor\model\ModelManager.h" />
+    <ClInclude Include="src\Actor\model\ShaderManager.h" />
+    <ClInclude Include="src\Actor\model\Vertex.h" />
     <ClInclude Include="src\Actor\Visible.h" />
     <ClInclude Include="src\Coords\CoordAttributes.h" />
-    <ClInclude Include="src\Coords\ModelProcessor.h" />
     <ClInclude Include="src\Coords\Transform.h" />
     <ClInclude Include="src\Observer\Observable.h" />
     <ClInclude Include="src\Observer\Observer.h" />
@@ -649,6 +667,10 @@
     <Image Include="res\images\default.png" />
     <Image Include="res\images\rata.png" />
     <Image Include="res\images\veloza epico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\3D models\basic_shapes\cylinder\cylinder.obj" />
+    <Object Include="res\3D models\basic_shapes\sphere\sphere.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

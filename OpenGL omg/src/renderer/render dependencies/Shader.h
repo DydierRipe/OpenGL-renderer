@@ -21,8 +21,8 @@ struct shaderSource {
 class Shader
 {
 private:
-	string pathV;
-	string pathF;
+	string pathV, vertexName;
+	string pathF, fragmentName;
 	unsigned int rendererID;
 	std::unordered_map<string, int> uLocationCache;
 
@@ -30,8 +30,16 @@ public:
 	Shader(const string& vertex, const string& fragment);
 	~Shader();
 
+	static string extractName(const string& path);
+
 	void bind() const;
 	void unbind() const;
+
+	inline string getVPath() const { return pathV; }
+	inline string getFPath() const { return pathF; }
+	inline string getVName() const { return vertexName; }
+	inline string getFName() const { return fragmentName; }
+	inline string getName() const { return vertexName + "//" + fragmentName; }
 
 	void setUniform1b(const string& name, bool v0);
 	void setUniform1i(const string& name, int v0);
